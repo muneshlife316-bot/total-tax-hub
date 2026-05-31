@@ -1,1 +1,1011 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOTALTAXHUB.COM - Professional Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ecf0f1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+        }
+        
+        .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .contact-info i {
+            color: #3498db;
+        }
+        
+        .main-nav {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .main-nav a {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .main-nav a:hover,
+        .main-nav a.active {
+            background-color: #ecf0f1;
+            color: #3498db;
+        }
+        
+        .main-content {
+            min-height: calc(100vh - 200px);
+            padding: 30px 0;
+        }
+        
+        .services h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 2em;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .service-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .service-card i {
+            font-size: 3em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .service-card h3 {
+            margin: 15px 0;
+            color: #2c3e50;
+        }
+        
+        .auth-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .auth-links a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .dashboard-container {
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .welcome-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .save-btn {
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .back-btn {
+            padding: 12px 30px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-info {
+                justify-content: center;
+                margin-top: 15px;
+            }
+            .main-nav ul {
+                flex-direction: column;
+            }
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>TOTALTAXHUB.COM</h1>
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> BTPITSOLUTIONS@gmail.com</p>
+                <p><i class="fas fa-phone"></i> 9414973521</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#" class="nav-link active" onclick="navigateTo('home'); return false;">Home</a></li>
+                <li><a href="#" class="nav-link" onclick="navigateTo('register'); return false;">Register</a></li>
+                <li><a href="#" class="nav-link" onclick="navigateTo('login'); return false;">Login</a></li>
+                <li id="dashboardNavLink" style="display: none;"><a href="#" class="nav-link" onclick="navigateTo('dashboard'); return false;">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- HOME PAGE -->
+            <section id="page-home" class="page-section active">
+                <div class="services">
+                    <h2>Services Provided</h2>
+                    <div class="service-grid">
+                        <div class="service-card" onclick="navigateTo('income-tax');">
+                            <i class="fas fa-file-invoice"></i>
+                            <h3>Income Tax Return</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('gst');">
+                            <i class="fas fa-percentage"></i>
+                            <h3>Goods and Service Tax</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('udhyam');">
+                            <i class="fas fa-id-card"></i>
+                            <h3>UDHYAM Aadhar</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('firm');">
+                            <i class="fas fa-building"></i>
+                            <h3>Firm Registration</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('company');">
+                            <i class="fas fa-landmark"></i>
+                            <h3>Company Registration</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INCOME TAX PAGE -->
+            <section id="page-income-tax" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="form-container">
+                    <h2>Income Tax Return Services</h2>
+                    <p>We provide comprehensive income tax return filing services for individuals and businesses.</p>
+                    <div style="margin-top: 30px;">
+                        <button class="save-btn" onclick="handleFileReturnClick()">File Return</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GST PAGE -->
+            <section id="page-gst" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="form-container">
+                    <h2>GST Services</h2>
+                    <p>Comprehensive GST services to help your business stay compliant with tax regulations.</p>
+                    <div style="margin-top: 30px;">
+                        <button class="save-btn" onclick="navigateTo('gst-registration')">GST Registration</button>
+                        <button class="save-btn" style="margin-left: 10px;" onclick="navigateTo('gst-return')">File GST Return</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UDHYAM PAGE -->
+            <section id="page-udhyam" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="form-container">
+                    <h2>UDHYAM Aadhar Registration</h2>
+                    <p>Complete assistance for MSME registration through UDHYAM Aadhar portal.</p>
+                    <p style="margin-top: 20px; color: #666;">Coming Soon!</p>
+                </div>
+            </section>
+
+            <!-- FIRM PAGE -->
+            <section id="page-firm" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="form-container">
+                    <h2>Firm Registration</h2>
+                    <p>Complete assistance in registering your partnership firm with all necessary compliances.</p>
+                    <p style="margin-top: 20px; color: #666;">Coming Soon!</p>
+                </div>
+            </section>
+
+            <!-- COMPANY PAGE -->
+            <section id="page-company" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="form-container">
+                    <h2>Company Registration</h2>
+                    <p>Complete assistance in company incorporation and related services.</p>
+                    <p style="margin-top: 20px; color: #666;">Coming Soon!</p>
+                </div>
+            </section>
+
+            <!-- REGISTER PAGE -->
+            <section id="page-register" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="auth-container">
+                    <h2><i class="fas fa-user-plus"></i> Register</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="regName">Name</label>
+                            <input type="text" id="regName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail">Email</label>
+                            <input type="email" id="regEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regMobile">Mobile No</label>
+                            <input type="tel" id="regMobile" name="mobile" pattern="[0-9]{10}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">Password</label>
+                            <input type="password" id="regPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Register</button>
+                        <div class="auth-links">
+                            <p>Already have an account? <a href="#" onclick="navigateTo('login'); return false;">Login here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- LOGIN PAGE -->
+            <section id="page-login" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('home'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="auth-container">
+                    <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Login</button>
+                        <div class="auth-links">
+                            <p>Don't have an account? <a href="#" onclick="navigateTo('register'); return false;">Register here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- DASHBOARD PAGE -->
+            <section id="page-dashboard" class="page-section">
+                <div class="dashboard-container">
+                    <div class="welcome-section">
+                        <div>
+                            <h2>Welcome, <span id="userName">User</span>!</h2>
+                            <p>Access all your tax and business services from one place</p>
+                        </div>
+                        <button onclick="handleLogout()" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                    <div class="service-grid">
+                        <div class="service-card" onclick="navigateTo('add-pan')">
+                            <i class="fas fa-id-card"></i>
+                            <h3>Add PAN</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('filereturn')">
+                            <i class="fas fa-file-invoice"></i>
+                            <h3>File Return</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('gst-registration')">
+                            <i class="fas fa-percentage"></i>
+                            <h3>GST Registration</h3>
+                        </div>
+                        <div class="service-card" onclick="navigateTo('gst-return')">
+                            <i class="fas fa-file-export"></i>
+                            <h3>GST Return</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADD PAN PAGE -->
+            <section id="page-add-pan" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('dashboard'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <div class="form-container">
+                    <h2>Add PAN Details</h2>
+                    <form id="panForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="panName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PAN Number</label>
+                            <input type="text" id="panNumber" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="panDob" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" id="panMobile" pattern="[0-9]{10}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="panEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="panAddress" required>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="save-btn">Save</button>
+                            <button type="button" class="back-btn" onclick="navigateTo('dashboard');">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- FILE RETURN PAGE -->
+            <section id="page-filereturn" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('dashboard'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <div class="form-container">
+                    <h2>File Income Tax Return</h2>
+                    <form id="fileReturnForm">
+                        <div class="form-group">
+                            <label>PAN</label>
+                            <input type="text" id="returnPan" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Financial Year</label>
+                            <select id="returnYear" required>
+                                <option value="2023-24">2023-24</option>
+                                <option value="2024-25">2024-25</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Bank Account</label>
+                            <input type="text" id="returnBank" required>
+                        </div>
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            <input type="text" id="returnIfsc" required>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="save-btn">File Return</button>
+                            <button type="button" class="back-btn" onclick="navigateTo('dashboard');">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- GST REGISTRATION PAGE -->
+            <section id="page-gst-registration" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('dashboard'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <div class="form-container">
+                    <h2>GST Registration</h2>
+                    <form id="gstRegForm">
+                        <div class="form-group">
+                            <label>GST Number</label>
+                            <input type="text" id="gstNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Business Name</label>
+                            <input type="text" id="gstBusinessName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Business Type</label>
+                            <select id="gstBusinessType" required>
+                                <option value="">Select</option>
+                                <option value="Proprietor">Proprietor</option>
+                                <option value="Partnership">Partnership</option>
+                                <option value="Company">Company</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>PAN Number</label>
+                            <input type="text" id="gstPan" required>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="submit" class="save-btn">Register</button>
+                            <button type="button" class="back-btn" onclick="navigateTo('dashboard');">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- GST RETURN PAGE -->
+            <section id="page-gst-return" class="page-section">
+                <a href="#" class="back-button" onclick="navigateTo('dashboard'); return false;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <div class="form-container">
+                    <h2>File GST Return</h2>
+                    <form id="gstReturnForm">
+                        <div class="form-group">
+                            <label>GST Number</label>
+                            <input type="text" id="gstReturnNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Month</label>
+                            <select id="gstReturnMonth" required>
+                                <option value="">Select Month</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Financial Year</label>
+                            <select id="gstReturnYear" required>
+                                <option value="2023-24">2023-24</option>
+                                <option value="2024-25">2024-25</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="save-btn">File Return</button>
+                            <button type="button" class="back-btn" onclick="navigateTo('dashboard');">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TOTALTAXHUB.COM. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // API Base URL
+        const API_BASE_URL = window.location.origin;
+        
+        // State
+        let currentUser = null;
+        let isAuthenticated = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            
+            // Setup form submissions
+            setupForms();
+        });
+
+        // Setup form event listeners
+        function setupForms() {
+            // Register form
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', handleRegister);
+            }
+            
+            // Login form
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            
+            // PAN form
+            const panForm = document.getElementById('panForm');
+            if (panForm) {
+                panForm.addEventListener('submit', handlePANSubmit);
+            }
+            
+            // File return form
+            const fileReturnForm = document.getElementById('fileReturnForm');
+            if (fileReturnForm) {
+                fileReturnForm.addEventListener('submit', handleFileReturn);
+            }
+            
+            // GST Registration form
+            const gstRegForm = document.getElementById('gstRegForm');
+            if (gstRegForm) {
+                gstRegForm.addEventListener('submit', handleGSTRegSubmit);
+            }
+            
+            // GST Return form
+            const gstReturnForm = document.getElementById('gstReturnForm');
+            if (gstReturnForm) {
+                gstReturnForm.addEventListener('submit', handleGSTReturnSubmit);
+            }
+        }
+
+        // Show notification
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = isError ? '#e74c3c' : '#27ae60';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // API Request
+        async function apiRequest(url, method = 'GET', data = null) {
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            };
+            
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            
+            try {
+                const response = await fetch(url, options);
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { success: false, message: 'Network error' };
+            }
+        }
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const result = await apiRequest(`${API_BASE_URL}/api/check-auth`);
+                if (result.success && result.authenticated) {
+                    isAuthenticated = true;
+                    currentUser = result.user;
+                    document.getElementById('dashboardNavLink').style.display = 'block';
+                    document.getElementById('userName').textContent = currentUser.name;
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+            }
+        }
+
+        // Navigation
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            const pageElement = document.getElementById('page-' + page);
+            if (pageElement) {
+                pageElement.classList.add('active');
+            }
+            
+            // Update nav link active state
+            const activeLink = document.querySelector(`.nav-link[onclick*="'${page}'"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Handle Register
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                mobile: document.getElementById('regMobile').value,
+                password: document.getElementById('regPassword').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/register`, 'POST', userData);
+            
+            if (result.success) {
+                showNotification('Registration successful! Please login.');
+                navigateTo('login');
+                event.target.reset();
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        // Handle Login
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const loginData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/login`, 'POST', loginData);
+            
+            if (result.success) {
+                showNotification('Login successful!');
+                currentUser = result.user;
+                isAuthenticated = true;
+                document.getElementById('dashboardNavLink').style.display = 'block';
+                document.getElementById('userName').textContent = currentUser.name;
+                navigateTo('dashboard');
+                event.target.reset();
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        // Handle Logout
+        async function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                await apiRequest(`${API_BASE_URL}/api/logout`, 'POST');
+                showNotification('Logged out successfully');
+                currentUser = null;
+                isAuthenticated = false;
+                document.getElementById('dashboardNavLink').style.display = 'none';
+                navigateTo('home');
+            }
+        }
+
+        // Handle PAN Submit
+        async function handlePANSubmit(event) {
+            event.preventDefault();
+            
+            if (!isAuthenticated) {
+                showNotification('Please login first', true);
+                navigateTo('login');
+                return;
+            }
+            
+            const panData = {
+                name: document.getElementById('panName').value,
+                pan: document.getElementById('panNumber').value.toUpperCase(),
+                dob: document.getElementById('panDob').value,
+                mobile: document.getElementById('panMobile').value,
+                email: document.getElementById('panEmail').value,
+                address: document.getElementById('panAddress').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/pan/add`, 'POST', panData);
+            
+            if (result.success) {
+                showNotification('PAN details saved successfully!');
+                event.target.reset();
+                navigateTo('dashboard');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        // Handle File Return
+        async function handleFileReturn(event) {
+            event.preventDefault();
+            
+            if (!isAuthenticated) {
+                showNotification('Please login first', true);
+                navigateTo('login');
+                return;
+            }
+            
+            const returnData = {
+                pan: document.getElementById('returnPan').value,
+                financialYear: document.getElementById('returnYear').value,
+                bankAccount: document.getElementById('returnBank').value,
+                ifscCode: document.getElementById('returnIfsc').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/it-return/file`, 'POST', returnData);
+            
+            if (result.success) {
+                showNotification('Income Tax Return filed successfully!');
+                event.target.reset();
+                navigateTo('dashboard');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        // Handle GST Registration
+        async function handleGSTRegSubmit(event) {
+            event.preventDefault();
+            
+            if (!isAuthenticated) {
+                showNotification('Please login first', true);
+                navigateTo('login');
+                return;
+            }
+            
+            const gstData = {
+                gstNumber: document.getElementById('gstNumber').value,
+                businessName: document.getElementById('gstBusinessName').value,
+                businessType: document.getElementById('gstBusinessType').value,
+                panNo: document.getElementById('gstPan').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/gst/register`, 'POST', gstData);
+            
+            if (result.success) {
+                showNotification('GST Registration saved successfully!');
+                event.target.reset();
+                navigateTo('dashboard');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        // Handle GST Return
+        async function handleGSTReturnSubmit(event) {
+            event.preventDefault();
+            
+            if (!isAuthenticated) {
+                showNotification('Please login first', true);
+                navigateTo('login');
+                return;
+            }
+            
+            const returnData = {
+                gstNumber: document.getElementById('gstReturnNumber').value,
+                month: document.getElementById('gstReturnMonth').value,
+                financialYear: document.getElementById('gstReturnYear').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/gst-return/file`, 'POST', returnData);
+            
+            if (result.success) {
+                showNotification('GST Return filed successfully!');
+                event.target.reset();
+                navigateTo('dashboard');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        // Handle File Return Click from Home
+        function handleFileReturnClick() {
+            if (isAuthenticated) {
+                navigateTo('filereturn');
+            } else {
+                if (confirm('Please login to access this feature. Would you like to login now?')) {
+                    navigateTo('login');
+                }
+            }
+        }
+
+        // Make functions globally available
+        window.navigateTo = navigateTo;
+        window.handleLogout = handleLogout;
+        window.handleFileReturnClick = handleFileReturnClick;
+    </script>
+</body>
+</html>
