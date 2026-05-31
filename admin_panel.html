@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Tax Hub Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        .login-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+        }
+
+        .login-box h2 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .login-box p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #1e3c72;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .admin-container {
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .admin-info {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 20px 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-menu li:hover {
+            background-color: #f5f7fa;
+        }
+
+        .sidebar-menu li.active {
+            background-color: #eef2ff;
+            border-left: 4px solid #2a5298;
+            color: #2a5298;
+            font-weight: 500;
+        }
+
+        .sidebar-menu li i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            color: #2a5298;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2a5298;
+            margin: 10px 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            color: #2a5298;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background-color: #1e3c72;
+        }
+
+        .danger-btn {
+            background-color: #e74c3c;
+        }
+
+        .danger-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .admin-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #eef2ff;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+
+        .admin-message {
+            background-color: #2a5298;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .coming-soon i {
+            font-size: 50px;
+            color: #2a5298;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner i {
+            font-size: 40px;
+            color: #2a5298;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .detail-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .info-card i {
+            font-size: 30px;
+            color: #2a5298;
+            margin-bottom: 10px;
+        }
+
+        .info-card h4 {
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .info-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2a5298;
+        }
+
+        .user-detail-btn.active {
+            background-color: #1e3c72;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 10px 0;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .sidebar-menu li {
+                white-space: nowrap;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h2>Total Tax Hub Admin Login</h2>
+            <p>Enter your credentials to access the admin panel</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+                
+                <div class="error-message" id="loginError">
+                    Invalid email or password. Please try again.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-container" id="adminPanel">
+        <div class="header">
+            <div>
+                <h1>Total Tax Hub Admin Panel</h1>
+                <div class="admin-info" id="currentAdminInfo">Loading...</div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="active" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </li>
+                    <li data-page="addAdmin" id="addAdminMenuItem">
+                        <i class="fas fa-user-plus"></i> Add Admin
+                    </li>
+                    <li data-page="registeredUsers">
+                        <i class="fas fa-users"></i> Registered Users
+                    </li>
+                    <li data-page="addNews">
+                        <i class="fas fa-newspaper"></i> Add News
+                    </li>
+                    <li data-page="adminData" id="adminDataMenuItem">
+                        <i class="fas fa-user-shield"></i> Admin Data
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content-area" id="contentArea">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE_URL = window.location.origin;
+        
+        // State
+        let currentAdmin = null;
+        let isAuthenticated = false;
+        let isSuperAdmin = false;
+
+        // ==================== Helper Functions ====================
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = isError ? '#e74c3c' : '#27ae60';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        async function apiRequest(url, method = 'GET', data = null) {
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            };
+            
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            
+            try {
+                const response = await fetch(url, options);
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { success: false, message: 'Network error: ' + error.message };
+            }
+        }
+
+        // ==================== Authentication ====================
+        async function checkAuth() {
+            const result = await apiRequest(`${API_BASE_URL}/api/admin/check-auth`);
+            
+            if (result.success && result.authenticated) {
+                currentAdmin = result.admin;
+                isAuthenticated = true;
+                isSuperAdmin = result.admin.is_super_admin;
+                showAdminPanel();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const loginData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/admin/login`, 'POST', loginData);
+            
+            if (result.success) {
+                currentAdmin = result.admin;
+                isAuthenticated = true;
+                isSuperAdmin = result.admin.is_super_admin;
+                showNotification('Login successful!');
+                showAdminPanel();
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        async function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                await apiRequest(`${API_BASE_URL}/api/admin/logout`, 'POST');
+                showNotification('Logged out successfully');
+                currentAdmin = null;
+                isAuthenticated = false;
+                isSuperAdmin = false;
+                showLoginPage();
+            }
+        }
+
+        // ==================== Page Management ====================
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        function showAdminPanel() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            
+            // Update admin info
+            document.getElementById('currentAdminInfo').innerHTML = 
+                `Logged in as: ${currentAdmin.email} ${isSuperAdmin ? '<span style="background-color: #27ae60; padding: 3px 8px; border-radius: 12px; margin-left: 10px;">Super Admin</span>' : '<span style="background-color: #3498db; padding: 3px 8px; border-radius: 12px; margin-left: 10px;">Admin</span>'}`;
+            
+            // Show/hide menu items based on admin type
+            document.getElementById('addAdminMenuItem').style.display = isSuperAdmin ? 'block' : 'none';
+            document.getElementById('adminDataMenuItem').style.display = isSuperAdmin ? 'block' : 'none';
+            
+            // Load dashboard by default
+            showPage('dashboard');
+            updateActiveMenuItem('dashboard');
+        }
+
+        function showPage(pageId) {
+            const contentArea = document.getElementById('contentArea');
+            
+            switch(pageId) {
+                case 'dashboard':
+                    loadDashboardPage(contentArea);
+                    break;
+                case 'addAdmin':
+                    loadAddAdminPage(contentArea);
+                    break;
+                case 'registeredUsers':
+                    loadRegisteredUsersPage(contentArea);
+                    break;
+                case 'adminData':
+                    loadAdminDataPage(contentArea);
+                    break;
+                case 'addNews':
+                    loadAddNewsPage(contentArea);
+                    break;
+                default:
+                    loadDashboardPage(contentArea);
+            }
+        }
+
+        function updateActiveMenuItem(pageId) {
+            document.querySelectorAll('.sidebar-menu li').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === pageId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // ==================== Page Loaders ====================
+        async function loadDashboardPage(contentArea) {
+            contentArea.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch"></i>
+                    <p style="margin-top: 15px; color: #666;">Loading dashboard data...</p>
+                </div>
+            `;
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/admin/dashboard-stats`);
+            
+            if (!result.success) {
+                contentArea.innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 10px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #e74c3c;"></i>
+                        <h3 style="margin: 20px 0; color: #e74c3c;">Failed to Load Dashboard</h3>
+                        <p style="color: #666;">${result.message || 'Please try again later.'}</p>
+                        <button class="action-btn" onclick="showPage('dashboard')" style="margin-top: 20px;">
+                            <i class="fas fa-sync-alt"></i> Retry
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const stats = result.stats || {};
+            
+            contentArea.innerHTML = `
+                <h2 class="page-title">
+                    <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                </h2>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3><i class="fas fa-users" style="color: #3498db;"></i> Total Users</h3>
+                        <div class="stat-number">${stats.total_users || 0}</div>
+                        <p style="color: #7f8c8d;">Registered users on platform</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-clock" style="color: #e67e22;"></i> Pending Queries</h3>
+                        <div class="stat-number">${stats.pending_queries || 0}</div>
+                        <p style="color: #7f8c8d;">Queries awaiting response</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-user-shield" style="color: #27ae60;"></i> Active Admins</h3>
+                        <div class="stat-number">${stats.active_admins || 0}</div>
+                        <p style="color: #7f8c8d;">Total administrators</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-sign-in-alt" style="color: #9b59b6;"></i> Today's Logins</h3>
+                        <div class="stat-number">${stats.today_logins || 0}</div>
+                        <p style="color: #7f8c8d;">User logins today</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-file-invoice" style="color: #e74c3c;"></i> IT Returns</h3>
+                        <div class="stat-number">${stats.total_it_returns || 0}</div>
+                        <p style="color: #7f8c8d;">Income tax returns filed</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-file-export" style="color: #f39c12;"></i> GST Returns</h3>
+                        <div class="stat-number">${stats.total_gst_returns || 0}</div>
+                        <p style="color: #7f8c8d;">GST returns filed</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 40px;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-bolt"></i> Quick Actions
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <button class="action-btn" onclick="showPage('registeredUsers')" style="padding: 15px;">
+                            <i class="fas fa-users"></i> Manage Users
+                        </button>
+                        ${isSuperAdmin ? `
+                        <button class="action-btn" onclick="showPage('addAdmin')" style="padding: 15px; background-color: #27ae60;">
+                            <i class="fas fa-user-plus"></i> Add Admin
+                        </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadAddAdminPage(contentArea) {
+            if (!isSuperAdmin) {
+                showNotification('Unauthorized access', true);
+                showPage('dashboard');
+                return;
+            }
+            
+            contentArea.innerHTML = `
+                <h2 class="page-title">
+                    <i class="fas fa-user-plus"></i> Add New Admin
+                </h2>
+                
+                <div class="admin-form">
+                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <div class="form-group">
+                            <label for="newAdminEmail">Email Address</label>
+                            <input type="email" id="newAdminEmail" placeholder="Enter email for new admin">
+                        </div>
+                        <div class="form-group">
+                            <label for="newAdminPassword">Password</label>
+                            <input type="password" id="newAdminPassword" placeholder="Enter password for new admin">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="back-btn" onclick="showPage('dashboard')">
+                            <i class="fas fa-arrow-left"></i> Cancel
+                        </button>
+                        <button type="button" class="action-btn" id="saveAdminBtn" style="background-color: #27ae60;">
+                            <i class="fas fa-save"></i> Create Admin
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('saveAdminBtn').addEventListener('click', saveAdmin);
+        }
+
+        async function saveAdmin() {
+            const email = document.getElementById('newAdminEmail').value;
+            const password = document.getElementById('newAdminPassword').value;
+            
+            if (!email || !password) {
+                showNotification('Please enter both email and password', true);
+                return;
+            }
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/admin/add`, 'POST', { email, password });
+            
+            if (result.success) {
+                showNotification('Admin added successfully!');
+                document.getElementById('newAdminEmail').value = '';
+                document.getElementById('newAdminPassword').value = '';
+                showPage('dashboard');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        async function loadRegisteredUsersPage(contentArea) {
+            contentArea.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch"></i>
+                    <p style="margin-top: 15px; color: #666;">Loading users...</p>
+                </div>
+            `;
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/admin/users`);
+            
+            if (!result.success) {
+                contentArea.innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 10px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #e74c3c;"></i>
+                        <h3 style="margin: 20px 0; color: #e74c3c;">Failed to Load Users</h3>
+                        <p style="color: #666;">${result.message || 'Please try again later.'}</p>
+                        <button class="action-btn" onclick="loadRegisteredUsersPage(contentArea)" style="margin-top: 20px;">
+                            <i class="fas fa-sync-alt"></i> Retry
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let usersHtml = '';
+            if (result.users && result.users.length > 0) {
+                result.users.forEach(user => {
+                    usersHtml += `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.name || 'N/A'}</td>
+                            <td>${user.email || 'N/A'}</td>
+                            <td>${user.mobile || 'N/A'}</td>
+                            <td>${user.regDate || 'N/A'}</td>
+                            <td>
+                                <button class="action-btn view-user-btn" data-userid="${user.id}">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                usersHtml = '<tr><td colspan="6" style="text-align: center; padding: 40px;">No users found</td></tr>';
+            }
+            
+            contentArea.innerHTML = `
+                <h2 class="page-title">
+                    <i class="fas fa-users"></i> Registered Users (${result.users ? result.users.length : 0})
+                </h2>
+                
+                <div style="background-color: white; border-radius: 10px; overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${usersHtml}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-user-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-userid');
+                    loadUserDetailsPage(userId);
+                });
+            });
+        }
+
+        async function loadUserDetailsPage(userId) {
+            const contentArea = document.getElementById('contentArea');
+            
+            contentArea.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch"></i>
+                    <p style="margin-top: 15px; color: #666;">Loading user details...</p>
+                </div>
+            `;
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/admin/user/${userId}/details`);
+            
+            if (!result.success) {
+                showNotification('Failed to load user details', true);
+                loadRegisteredUsersPage(contentArea);
+                return;
+            }
+            
+            const user = result.user;
+            
+            // Generate PAN records HTML - Fixed: removed income_type which doesn't exist
+            let panHtml = '';
+            if (result.pan_records && result.pan_records.length > 0) {
+                result.pan_records.forEach(pan => {
+                    panHtml += `
+                        <tr>
+                            <td><strong>${pan.pan || 'N/A'}</strong></td>
+                            <td>${pan.name || 'N/A'}</td>
+                            <td>${pan.dob || 'N/A'}</td>
+                            <td>${pan.mobile || 'N/A'}</td>
+                            <td>${pan.email || 'N/A'}</td>
+                            <td>${pan.created_at || 'N/A'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                panHtml = '<tr><td colspan="6" style="text-align: center; padding: 40px;">No PAN records found</td></tr>';
+            }
+            
+            // Generate GST registrations HTML
+            let gstHtml = '';
+            if (result.gst_registrations && result.gst_registrations.length > 0) {
+                result.gst_registrations.forEach(gst => {
+                    gstHtml += `
+                        <tr>
+                            <td><strong>${gst.gst_number || 'N/A'}</strong></td>
+                            <td>${gst.business_name || 'N/A'}</td>
+                            <td>${gst.business_type || 'N/A'}</td>
+                            <td>${gst.pan_no || 'N/A'}</td>
+                            <td>${gst.created_at || 'N/A'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                gstHtml = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No GST registrations found</td></tr>';
+            }
+            
+            // Generate IT Returns HTML
+            let itReturnsHtml = '';
+            if (result.it_returns && result.it_returns.length > 0) {
+                result.it_returns.forEach(ret => {
+                    itReturnsHtml += `
+                        <tr>
+                            <td>${ret.financial_year || 'N/A'}</td>
+                            <td>${ret.assessment_year || 'N/A'}</td>
+                            <td>₹${ret.total_income ? ret.total_income.toLocaleString() : '0'}</td>
+                            <td>₹${ret.tax_paid ? ret.tax_paid.toLocaleString() : '0'}</td>
+                            <td><span class="status-badge completed">${ret.status || 'Filed'}</span></td>
+                            <td>${ret.filing_date || 'N/A'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                itReturnsHtml = '<tr><td colspan="6" style="text-align: center; padding: 40px;">No IT returns found</td></tr>';
+            }
+            
+            // Generate GST Returns HTML
+            let gstReturnsHtml = '';
+            if (result.gst_returns && result.gst_returns.length > 0) {
+                result.gst_returns.forEach(ret => {
+                    gstReturnsHtml += `
+                        <tr>
+                            <td>${ret.financial_year || 'N/A'}</td>
+                            <td>${ret.month || 'N/A'}</td>
+                            <td>₹${ret.turnover ? ret.turnover.toLocaleString() : '0'}</td>
+                            <td>₹${ret.tax_liability ? ret.tax_liability.toLocaleString() : '0'}</td>
+                            <td><span class="status-badge completed">${ret.status || 'Filed'}</span></td>
+                            <td>${ret.filing_date || 'N/A'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                gstReturnsHtml = '<tr><td colspan="6" style="text-align: center; padding: 40px;">No GST returns found</td></tr>';
+            }
+            
+            // Generate login history HTML
+            let loginHtml = '';
+            if (result.login_history && result.login_history.length > 0) {
+                result.login_history.forEach(login => {
+                    loginHtml += `
+                        <tr>
+                            <td>${login.date || 'N/A'}</td>
+                            <td>${login.ip_address || 'N/A'}</td>
+                            <td>${login.device || 'Unknown'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                loginHtml = '<tr><td colspan="3" style="text-align: center; padding: 40px;">No login history found</td></tr>';
+            }
+            
+            contentArea.innerHTML = `
+                <button class="back-btn" onclick="loadRegisteredUsersPage(document.getElementById('contentArea'))">
+                    <i class="fas fa-arrow-left"></i> Back to Users
+                </button>
+                
+                <h2 class="page-title">
+                    <i class="fas fa-user-circle"></i> User Details: ${user.name || 'N/A'}
+                </h2>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <button class="action-btn user-detail-btn active" data-section="overview">
+                        <i class="fas fa-info-circle"></i> Overview
+                    </button>
+                    <button class="action-btn user-detail-btn" data-section="pan">
+                        <i class="fas fa-id-card"></i> PAN Records (${result.pan_records?.length || 0})
+                    </button>
+                    <button class="action-btn user-detail-btn" data-section="gst">
+                        <i class="fas fa-percentage"></i> GST Registrations (${result.gst_registrations?.length || 0})
+                    </button>
+                    <button class="action-btn user-detail-btn" data-section="itreturns">
+                        <i class="fas fa-file-invoice"></i> IT Returns (${result.it_returns?.length || 0})
+                    </button>
+                    <button class="action-btn user-detail-btn" data-section="gstreturns">
+                        <i class="fas fa-file-export"></i> GST Returns (${result.gst_returns?.length || 0})
+                    </button>
+                    <button class="action-btn user-detail-btn" data-section="login">
+                        <i class="fas fa-history"></i> Login History
+                    </button>
+                    <button class="action-btn user-detail-btn" data-section="chat">
+                        <i class="fas fa-comments"></i> Chat
+                    </button>
+                </div>
+                
+                <!-- Overview Section -->
+                <div id="overviewSection" class="detail-section">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-user"></i> User Information
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px; padding: 10px;">
+                        <div style="font-weight: bold; color: #555;">Full Name:</div>
+                        <div>${user.name || 'N/A'}</div>
+                        
+                        <div style="font-weight: bold; color: #555;">Email Address:</div>
+                        <div>${user.email || 'N/A'}</div>
+                        
+                        <div style="font-weight: bold; color: #555;">Mobile Number:</div>
+                        <div>${user.mobile || 'N/A'}</div>
+                        
+                        <div style="font-weight: bold; color: #555;">Registration Date:</div>
+                        <div>${user.regDate || 'N/A'}</div>
+                        
+                        <div style="font-weight: bold; color: #555;">User ID:</div>
+                        <div>#${user.id || 'N/A'}</div>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <i class="fas fa-id-card"></i>
+                            <h4>PAN Records</h4>
+                            <p>${result.pan_records?.length || 0}</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-percentage"></i>
+                            <h4>GST Registrations</h4>
+                            <p>${result.gst_registrations?.length || 0}</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-file-invoice"></i>
+                            <h4>IT Returns</h4>
+                            <p>${result.it_returns?.length || 0}</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-file-export"></i>
+                            <h4>GST Returns</h4>
+                            <p>${result.gst_returns?.length || 0}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PAN Records Section -->
+                <div id="panSection" class="detail-section" style="display: none;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-id-card"></i> PAN Records
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>PAN Number</th>
+                                    <th>Name</th>
+                                    <th>Date of Birth</th>
+                                    <th>Mobile</th>
+                                    <th>Email</th>
+                                    <th>Added Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${panHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- GST Registrations Section -->
+                <div id="gstSection" class="detail-section" style="display: none;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-percentage"></i> GST Registrations
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>GST Number</th>
+                                    <th>Business Name</th>
+                                    <th>Business Type</th>
+                                    <th>PAN</th>
+                                    <th>Registered Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${gstHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- IT Returns Section -->
+                <div id="itreturnsSection" class="detail-section" style="display: none;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-file-invoice"></i> Income Tax Returns
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Financial Year</th>
+                                    <th>Assessment Year</th>
+                                    <th>Total Income</th>
+                                    <th>Tax Paid</th>
+                                    <th>Status</th>
+                                    <th>Filing Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${itReturnsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- GST Returns Section -->
+                <div id="gstreturnsSection" class="detail-section" style="display: none;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-file-export"></i> GST Returns
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Financial Year</th>
+                                    <th>Month</th>
+                                    <th>Turnover</th>
+                                    <th>Tax Liability</th>
+                                    <th>Status</th>
+                                    <th>Filing Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${gstReturnsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Login History Section -->
+                <div id="loginSection" class="detail-section" style="display: none;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-history"></i> Login History (Last 10)
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>IP Address</th>
+                                    <th>Device</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${loginHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Chat Section -->
+                <div id="chatSection" class="detail-section" style="display: none;">
+                    <h3 style="color: #2a5298; margin-bottom: 20px;">
+                        <i class="fas fa-comments"></i> Chat with ${user.name || 'User'}
+                    </h3>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div style="text-align: center; color: #999; padding: 40px;">
+                                <i class="fas fa-comment-dots" style="font-size: 40px; margin-bottom: 15px;"></i>
+                                <p>Loading messages...</p>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Type your message here..." autocomplete="off">
+                            <button class="action-btn" id="sendChatBtn" onclick="sendChatMessage(${user.id})">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize section switcher
+            document.querySelectorAll('.user-detail-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.user-detail-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.detail-section').forEach(s => s.style.display = 'none');
+                    
+                    // Show selected section
+                    document.getElementById(section + 'Section').style.display = 'block';
+                    
+                    // Load chat messages if chat section is selected
+                    if (section === 'chat') {
+                        loadChatMessages(user.id);
+                    }
+                });
+            });
+        }
+
+        async function loadChatMessages(userId) {
+            const result = await apiRequest(`${API_BASE_URL}/api/chat/messages/${userId}`);
+            
+            if (result.success) {
+                const chatContainer = document.getElementById('chatMessages');
+                if (!chatContainer) return;
+                
+                chatContainer.innerHTML = '';
+                
+                if (!result.messages || result.messages.length === 0) {
+                    chatContainer.innerHTML = '<div style="text-align: center; color: #999; padding: 40px;"><i class="fas fa-comments" style="font-size: 40px; margin-bottom: 15px;"></i><p>No messages yet. Start a conversation!</p></div>';
+                } else {
+                    result.messages.forEach(msg => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = `message ${msg.sender === 'user' ? 'user-message' : 'admin-message'}`;
+                        messageDiv.innerHTML = `
+                            <div style="margin-bottom: 5px;">${msg.message}</div>
+                            <div style="font-size: 11px; opacity: 0.8;">${msg.timestamp} - ${msg.date}</div>
+                        `;
+                        chatContainer.appendChild(messageDiv);
+                    });
+                }
+                
+                // Scroll to bottom
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        async function sendChatMessage(userId) {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/chat/send`, 'POST', {
+                userId: parseInt(userId),
+                message: message
+            });
+            
+            if (result.success) {
+                input.value = '';
+                await loadChatMessages(userId);
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        async function loadAdminDataPage(contentArea) {
+            if (!isSuperAdmin) {
+                showNotification('Unauthorized access', true);
+                showPage('dashboard');
+                return;
+            }
+            
+            contentArea.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch"></i>
+                    <p style="margin-top: 15px; color: #666;">Loading admin data...</p>
+                </div>
+            `;
+            
+            const result = await apiRequest(`${API_BASE_URL}/api/admins`);
+            
+            if (!result.success) {
+                contentArea.innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 10px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #e74c3c;"></i>
+                        <h3 style="margin: 20px 0; color: #e74c3c;">Failed to Load Admin Data</h3>
+                        <p style="color: #666;">${result.message || 'Please try again later.'}</p>
+                        <button class="action-btn" onclick="loadAdminDataPage(contentArea)" style="margin-top: 20px;">
+                            <i class="fas fa-sync-alt"></i> Retry
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let adminsHtml = '';
+            if (result.admins && result.admins.length > 0) {
+                result.admins.forEach(admin => {
+                    adminsHtml += `
+                        <tr>
+                            <td>${admin.id}</td>
+                            <td>
+                                ${admin.email}
+                                ${admin.is_super_admin ? '<br><span class="status-badge completed" style="margin-top: 5px;">Super Admin</span>' : ''}
+                            </td>
+                            <td>${admin.added_by || 'System'}</td>
+                            <td>${admin.added_date || 'N/A'}</td>
+                            <td>${admin.last_activity || 'Never'}</td>
+                            <td>
+                                ${!admin.is_super_admin ? `
+                                <button class="action-btn danger-btn remove-admin-btn" data-adminid="${admin.id}">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                                ` : '<span style="color: #999;">System Admin</span>'}
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                adminsHtml = '<tr><td colspan="6" style="text-align: center; padding: 40px;">No admins found</td></tr>';
+            }
+            
+            contentArea.innerHTML = `
+                <h2 class="page-title">
+                    <i class="fas fa-user-shield"></i> Admin Management
+                </h2>
+                
+                <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <p style="color: #666;">Total Administrators: <strong>${result.admins ? result.admins.length : 0}</strong></p>
+                    <button class="action-btn" onclick="showPage('addAdmin')" style="background-color: #27ae60;">
+                        <i class="fas fa-user-plus"></i> Add New Admin
+                    </button>
+                </div>
+                
+                <div style="background-color: white; border-radius: 10px; overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Admin ID</th>
+                                <th>Email</th>
+                                <th>Added By</th>
+                                <th>Added Date</th>
+                                <th>Last Activity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${adminsHtml}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-admin-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const adminId = this.getAttribute('data-adminid');
+                    if (confirm('Are you sure you want to remove this admin?')) {
+                        const result = await apiRequest(`${API_BASE_URL}/api/admin/remove/${adminId}`, 'DELETE');
+                        if (result.success) {
+                            showNotification('Admin removed successfully');
+                            loadAdminDataPage(contentArea);
+                        } else {
+                            showNotification(result.message, true);
+                        }
+                    }
+                });
+            });
+        }
+
+        function loadAddNewsPage(contentArea) {
+            contentArea.innerHTML = `
+                <div class="coming-soon">
+                    <i class="fas fa-newspaper"></i>
+                    <h2 style="color: #2a5298; margin-bottom: 15px;">News Management</h2>
+                    <p style="font-size: 18px; margin-bottom: 10px;">This feature is currently under development.</p>
+                    <p style="color: #7f8c8d;">Soon you'll be able to manage news and announcements from here.</p>
+                </div>
+            `;
+        }
+
+        // ==================== Initialize ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            
+            // Sidebar menu items
+            document.querySelectorAll('.sidebar-menu li').forEach(item => {
+                item.addEventListener('click', function() {
+                    const page = this.getAttribute('data-page');
+                    showPage(page);
+                    updateActiveMenuItem(page);
+                });
+            });
+            
+            // Check authentication
+            checkAuth();
+        });
+
+        // Make functions globally available
+        window.showPage = showPage;
+        window.sendChatMessage = sendChatMessage;
+        window.showNotification = showNotification;
+        window.loadRegisteredUsersPage = loadRegisteredUsersPage;
+    </script>
+</body>
+</html>
